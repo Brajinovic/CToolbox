@@ -17,12 +17,12 @@ int *allocateArray(int numberOfElements){
 int **allocateMatrix(int rows, int columns){
 	// allocate a 2d array
 	int **C;
-	C = (int**)malloc(rows  * sizeof(int*));
+	C = (int**)malloc(rows * sizeof(int*));
 	if(C == NULL){
 		printf("Error allocating memory 2 dimensional array!");
 		return -1;
 	}
-	for(int i = 0; i < columns; i++){
+	for(int i = 0; i < rows; i++){
 		C[i] = (int*)malloc(columns * sizeof(int));
 		if(C[i] == NULL){
 			printf("Error allocating memory 2 dimensional array!");
@@ -127,7 +127,7 @@ int **multiplyMatrix(int **A, int rowsA, int columnsA, int **B, int columnsB){
 		for(int j = 0; j < columnsB; j++){
 			C[i][j] = 0;
 			for(int k = 0; k < columnsA; k++){
-				C[i][j] += A[rowsA][columnsA] * B[columnsA][columnsB];
+				C[i][j] += A[i][k] * B[k][j];
 			}
 		}
 	}
@@ -164,12 +164,21 @@ void testArray(){
 
 
 void testMatrix(){
+	// create 2 matrices
 	int **A = allocateMatrix(3, 2);
 	int **B = allocateMatrix(2, 3);
-
+	// fill them with random int
 	fillMatrixRandomInt(A, 3, 2);
 	fillMatrixRandomInt(B, 2, 3);
+	// print them out
+	printMatrix(A, 3, 2);
+	printMatrix(B, 2, 3);
 
+	
+	
+
+	printMatrix(multiplyMatrix(A, 3, 2, B, 3), 3, 3);
+	
 }
 
 
@@ -177,7 +186,7 @@ void testMatrix(){
 int main(void){
 
 	//testArray();
-
+	testMatrix();
 	
 	return 0;
 }
